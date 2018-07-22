@@ -3,11 +3,13 @@
         {
             "name": "Mac",
             "includePath": [
+                "/Applications/Arduino.app/Contents/Java/Libraries",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
+                    "/Applications/Arduino.app/Contents/Java/Libraries",
                     "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino"
                 ]
             },
