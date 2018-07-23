@@ -36,7 +36,7 @@ def creat_format():
       ds3_val = '0' + str(ds3_val)
 
 device_path = "/dev/input/js0"
-port = "/dev/ttyACM0"
+port = "/dev/ttyS0"
 serialArduino = serial.Serial(port, 9600)
 serialArduino.flushInput()
 
