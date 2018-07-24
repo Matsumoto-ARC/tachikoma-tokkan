@@ -13,10 +13,14 @@
 
 /* 関数定義 */
 void calc_format(String, int *, int *, int *, int *);
-void Operation_Servo(int, int);
+void Digital_Button_Check(int, int);
+void Analog_Button_Check(int, int);
+void Operation_Servo(void);
+void Operateion_Motor(void);
 
 /* Global変数 */
 Servo   base_servo, elbow_servo, wrist_servo, finger_servo;
+int start_bt, select_bt, l1_bt, r1_bt, triangle_bt, circle_bt, square_bt, cross_bt;
 
 void setup(){
     Serial.begin(9600);
@@ -46,19 +50,21 @@ void loop(){
 
     read_data = Serial.readStringUntil('\n');
     if (read_data != ""){
-        Serial.println(read_data);  /* debug用 */
+        // Serial.println(read_data);  /* debug用 */
         calc_format(read_data, &bt_type, &bt_num, &bt_val1, &bt_val2);
     }
     if (bt_type == 1) {
-        Operation_Servo(bt_num, bt_val1);
+        Digital_Button_Check(bt_num, bt_val1);
+        Operation_Servo();
     } else if (bt_type == 2) {
-        Operateion_Motor(bt_num, bt_val2);
+        Analog_Button_Check(bt_num, bt_val2);
+        Operateion_Motor();
     }
     delay(10);
 }
 
 void calc_format(String data, int *type, int *num, int *val1, int *val2){
-    int len, i;
+    int len, i, hit_index;
     String ds3_type, ds3_num, ds3_val1, ds3_val2;
 
     len = data.length();
@@ -70,93 +76,106 @@ void calc_format(String data, int *type, int *num, int *val1, int *val2){
         *type = (int)ds3_type.toInt();
         *num = (int)ds3_num.toInt();
         *val1 = (int)ds3_val1.toInt(); 
+        Serial.println(*val1); 
     }else if (len == 9){
         ds3_type = data.substring(0, 1);
         ds3_num = data.substring(1, 3);
-        
-        for (i = 3; i++; i < len) {
-            if (data.indexOf('0', 3) == -1) {
-                /* 負の値 */ 
-                if (data.indexOf('-', i) == -1) {
-                    ds3_val2 = data.substring(i - 1, 9);
-                    // Serial.println(data.substring(i - 1, 9));
-                    i = 8;
-                }
-            } else {
-                /* 正の値 */
-                if (data.indexOf('0', i) == -1) {
-                    ds3_val2 = data.substring(i, 9);
-                    // Serial.println(data.substring(i, 9));
-                    i = 8;
-                }
-            }
+
+        if (data.indexOf('-', 3) != -1) {
+            /* 負の値 */ 
+            hit_index = data.lastIndexOf('-'); 
+            ds3_val2 = data.substring(hit_index, len);
+            // Serial.println(data.substring(hit_index, len));
+        } else {
+            /* 正の値 */
+            ds3_val2 = data.substring(4, len);
+            // Serial.println(data.substring(4, len));
         }
         *type = (int)ds3_type.toInt();
         *num = (int)ds3_num.toInt();
-        *val2 = (int)ds3_val2.toInt();         
+        *val2 = (int)ds3_val2.toInt();        
+        Serial.println(*val2); 
     }
-
 }
 
-void Operation_Servo(int num, int val){
+void Digital_Button_Check(int num, int val){
 
     switch (num) {
         case 0:     /* SELCTボタン */
+            if (val == 1){
+                select_bt = 1;
+            } else if (val == 0) {
+                select_bt = 0;
+            }
             break;
         case 3:     /* STARTボタン */
             if (val == 1){
-                digitalWrite(8, HIGH);
-                digitalWrite(9, HIGH);
-                digitalWrite(10, HIGH);
-                digitalWrite(11, HIGH);
-                delay(3000);
-                digitalWrite(8, LOW);
-                digitalWrite(9, LOW);
-                digitalWrite(10, LOW);
-                digitalWrite(11, LOW);  
+                start_bt = 1;
             } else if (val == 0) {
-                /* digitalWrite(8, LOW);
-                digitalWrite(9, LOW);
-                digitalWrite(10, LOW);
-                digitalWrite(11, LOW);   */              
+                start_bt = 0;
             }
+            break;
+        case 10:    /* L1ボタン */
+            if (val == 1) {
+                l1_bt = 1;
+            } else if (val == 0) {
+                l1_bt= 0;
+            }
+            break;
+        case 11:    /* R1ボタン */
+            if (val == 1) {
+                r1_bt = 1;
+            } else if (val == 0) {
+                r1_bt = 0;
+            }
+            break;
         case 12:    /* △ボタン */
             Serial.println(12);     /* debug用 */
             if (val == 1) {
-                digitalWrite(8, HIGH);
+                triangle_bt = 1:
             } else if (val == 0) {
-                digitalWrite(8, LOW);
+                triangle_bt = 0;
             }
             break;
         case 13:    /* ○ボタン */
             Serial.println(13);     /* debug用 */
             if (val == 1) {
-                digitalWrite(9, HIGH);
+                circle_bt = 1;
             } else if (val == 0) {
-                digitalWrite(9, LOW);
+                circle_bt = 0;
             }
             break;
         case 14:    /* □ボタン */
             Serial.println(14);     /* debug用 */
             if (val == 1) {
-                digitalWrite(10, HIGH);
+                square_bt = 1;
             } else if (val == 0) {
-                digitalWrite(10, LOW);
+                square_bt = 0;
             }
             break;
         case 15:    /* ×ボタン */
             Serial.println(15);     /* debug用 */
             if (val == 1) {
-                digitalWrite(11, HIGH);
+                cross_bt = 1;
             } else if (val == 0) {
-                digitalWrite(11, LOW);
+                cross_bt = 0;
             }
             break;
-        default:
+        default:    /* その他ボタン(十字キー, L2, R2, L3, R3) */
             break;
     }
 }
 
-void Operateion_Motor(int, int) {
+void Operateion_Servo(void) {
+    if (triangle_bt == 1 && (l1_bt == 1 && r1_bt != 1))  {
+
+    } else if (triangle_bt == 1 && (l1_bt != 1 && r1_bt == 1)) {
+
+    } else {
+
+    }
+}
+
+void Operateion_Motor(void) {
 
 }
