@@ -1,5 +1,5 @@
 {
     "board": "arduino:avr:uno",
-    "port": "/dev/cu.usbmodem14231",
-    "sketch": "servo_control/servo_control.ino"
+    "port": "/dev/cu.usbmodem1421",
+    "sketch": "tachikoma-tokkan/tachikoma-tokkan.ino"
 }
