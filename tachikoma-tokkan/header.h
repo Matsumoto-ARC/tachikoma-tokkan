@@ -13,8 +13,17 @@
 /* モーターのGPIO番号を設定 */
 #define MOTOR_PIN1  (5)     /* 左モーターの動作速度 制御用 */
 #define MOTOR_PIN2  (6)     /* 右モーターの動作速度 制御用 */
-#define MOTOR_PIN3  (7)     /* モーターの前進 or 後進 制御用 */
-#define MOTOR_PIN4  (8)     /* モーターの前進 or 後進 制御用 */
+#define MOTOR_PIN3  (7)     /* 左モーターの(IN1) 制御用 */
+#define MOTOR_PIN4  (8)     /* 左モーターの(IN2) 制御用 */
+#define MOTOR_PIN5  (12)    /* 右モーターの(IN1) 制御用 */
+#define MOTOR_PIN6  (13)    /* 右モーターの(IN2) 制御用 */
+
+/* 左右旋回時間 */
+#define MOTOR_ACTION_TIME   (2)  /* max 510(255*2)msec */
+
+/* LED用のGPIO番号を設定 */
+#define LED_PIN1    (2)
+#define LED_PIN2    (4)
 
 /* サーボの初期角度を設定 TBD(サーボの仕様で以下の値を決定する)*/
 #define BASE_SERVO_INIT_ANGLE   (1500)
@@ -32,8 +41,11 @@
 #define WRIST_SERVO_MIN_ANGLE   (1000)
 #define FINGER_SERVO_MIN_ANGLE  (1000)
 
-/* 左右旋回時間 */
-#define MOTOR_ACTION_TIME   (4)  /* max 1020(255*4)msec */
+/* Error No */
+enum ERROR_NO {
+    SERIAL_COMM_ERROR = 1,
+    SERVO_MOVE_ERROR,
+};
 
 struct SERIAL_DATA {
     String  serial_type;
@@ -130,5 +142,8 @@ extern void                 gfunc_servo_init(void);
 extern void                 gfunc_servo_operation(DIGITAL_BUTTON);
 extern void                 gfunc_motor_init(void);
 extern void                 gfunc_motor_operation(ANALOG_STICK, ANALOG_STICK_VAL);
+extern void                 gfunc_led_init(void);
+extern void                 gfunc_led_operation(void);
+extern void                 gfunc_led_error_blink(unsigned int);
 
 #endif

@@ -3,9 +3,14 @@
 #include "header.h"
 
 /* 変数のプロトタイプ宣言 */
-static Servo            scl_base_servo, scl_elbow_servo, scl_wrist_servo, scl_finger_servo;
+static Servo    scl_base_servo, scl_elbow_servo, scl_wrist_servo, scl_finger_servo;
+
+/* 関数のプロトタイプ宣言 */
+static bool     sfunc_servo_check(void);
 
 void gfunc_servo_init(void) {
+    bool            tbl_servo_result = false;
+    unsigned int    tui_error_no = 0;
 
     /* それぞれのサーボに割り当てるGPIOを設定(TBD) */
     scl_base_servo.attach(SERVO_PIN1);
@@ -13,11 +18,20 @@ void gfunc_servo_init(void) {
     scl_wrist_servo.attach(SERVO_PIN3);
     scl_finger_servo.attach(SERVO_PIN4);
 
+/*     tbl_servo_result = sfunc_servo_check();
+    if (tbl_servo_result != true) {
+        gfunc_led_error_blink(SERVO_MOVE_ERROR);
+    } */
+
     /* それぞれのサーボの初期角度を設定(TBD) */
     scl_base_servo.writeMicroseconds(BASE_SERVO_INIT_ANGLE);
     scl_elbow_servo.writeMicroseconds(ELBOW_SERVO_INIT_ANGLE);
     scl_wrist_servo.writeMicroseconds(WRIST_SERVO_INIT_ANGLE);
     scl_finger_servo.writeMicroseconds(FINGER_SERVO_INIT_ANGLE);
+}
+
+bool sfunc_servo_check(void) {
+
 }
 
 /* TBD(他のメンバーの意見を聞いてから再実装) */

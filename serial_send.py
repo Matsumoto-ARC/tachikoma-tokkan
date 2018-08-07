@@ -44,6 +44,12 @@ serialArduino.flushInput()
 EVENT_FORMAT = "LhBB";
 EVENT_SIZE = struct.calcsize(EVENT_FORMAT)
 
+read_data = 0
+while read_data == 0:
+  read_data = int.from_bytes(serialArduino.read(1), 'big')
+  if (read_data == 1):
+    serialArduino.write(bytes(read_data))
+
 with open(device_path, "rb") as device:
   event = device.read(EVENT_SIZE)
   while event:
@@ -57,7 +63,4 @@ with open(device_path, "rb") as device:
       serialArduino.write(bytes(serial_send_data.encode('utf-8')))
       print( "{0}, {1}, {2}".format( ds3_type, ds3_num, ds3_val ) )
       
-      #read_data = serialArduino.readline()
-      #replay_data = int(read_data)
-        
     event = device.read(EVENT_SIZE)
