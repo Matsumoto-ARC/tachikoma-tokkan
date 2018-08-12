@@ -20,11 +20,11 @@ void gfunc_serial_init(void){
     Serial.flush();
 
     sst_read_data = "";
-    tbl_comm_result = sfunc_serial_comm_check();
+    /* tbl_comm_result = sfunc_serial_comm_check();
     
     if (tbl_comm_result != true) {
         gfunc_led_error_blink(SERIAL_COMM_ERROR);
-    }
+    } */
 }
 
 void gfunc_serial_read(BUTTON_DATA *tcl_result_data){

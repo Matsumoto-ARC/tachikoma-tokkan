@@ -17,6 +17,7 @@ void setup(){
 void loop(){
     /* Raspberry Pi3から送信されてくるシリアルデータを取得 */
     gfunc_serial_read(&scl_result_data);
+    Serial.println(scl_result_data.button_type);
 
     /* 取得したシリアルデータからタイプを分類 */
     if (scl_result_data.button_type == 1) {     /* ディジタル値(ボタン操作)の場合 */
@@ -24,17 +25,18 @@ void loop(){
         /* どのボタンが押された or 離されたかチェック */
         gfunc_controler_button_check(scl_result_data, &scl_result_button);
         
-        /* ボタンに対応したサーボを動作させる */
-        gfunc_servo_operation(scl_result_button);
-
     } else if (scl_result_data.button_type == 2) {  /* アナログ値(アナログスティック操作)の場合 */
 
         /* どのスティックを操作したかチェック */
         scl_motor_val = gfunc_controler_analog_check(scl_result_data, &scl_result_stick);
 
-        /* アナログスティックに対応したモーターを動作させる */
-        gfunc_motor_operation(scl_result_stick, scl_motor_val);
-
     }
+
+    /* ボタンに対応したサーボを動作させる */
+    gfunc_servo_operation(scl_result_button);
+
+    /* アナログスティックに対応したモーターを動作させる */
+    gfunc_motor_operation(scl_result_stick, scl_motor_val);
+
     delay(10);
 }
