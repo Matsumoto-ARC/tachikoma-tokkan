@@ -30,8 +30,8 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
 
     /* 前進 */
     if (((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left == false) && (tcl_ana_st.l3_right == false)) || \
-        ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_left_val < 16384)) || \
-        ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_right != false) && (tcl_ana_st.l3_right_val < 16384))) {  
+        ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left != false) && (tcl_motor_val.l3_left_val < 16384)) || \
+        ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_right != false) && (tcl_motor_val.l3_right_val < 16384))) {  
         /* モーターの制御を書く */
         tui_motor_conv_val = (int)tcl_motor_val.l3_up_val / 128.5;
         analogWrite(MOTOR_PIN1, tui_motor_conv_val);
@@ -45,8 +45,8 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
 
     /* 後進 */
     } else if (((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left == false) && (tcl_ana_st.l3_right == false)) || \
-               ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_left_val < 16384)) || \
-               ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_right != false) && (tcl_ana_st.l3_right_val < 16384))) {
+               ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left != false) && (tcl_motor_val.l3_left_val < 16384)) || \
+               ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_right != false) && (tcl_motor_val.l3_right_val < 16384))) {
         /* モーターの制御を書く */
         tui_motor_conv_val = (int)tcl_motor_val.l3_down_val / 128.5;
         analogWrite(MOTOR_PIN1, tui_motor_conv_val);
@@ -60,8 +60,8 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
 
     /* 左旋回 */
     } else if (((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up == false) && (tcl_ana_st.l3_down == false)) || \
-               ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_up_val < 16384)) || \
-               ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_down_val < 16384))) {
+               ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up != false) && (tcl_motor_val.l3_up_val < 16384)) || \
+               ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_down != false) && (tcl_motor_val.l3_down_val < 16384))) {
         /* モーターの制御を書く */
         tui_motor_conv_val = (int)tcl_motor_val.l3_left_val / 128.5;
         analogWrite(MOTOR_PIN1, tui_motor_conv_val);
