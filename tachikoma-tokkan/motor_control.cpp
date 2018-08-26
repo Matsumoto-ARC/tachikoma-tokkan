@@ -29,8 +29,8 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
     unsigned int tui_motor_action_time = 0;
 
     /* 前進 */
-    if (((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left == false) && (tcl_ana_st.l3_right == false)) || \
-        ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left != false) && (tcl_motor_val.l3_left_val < 16384)) || \
+    if (((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left == false) && (tcl_ana_st.l3_right == false)) || 
+        ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_left != false) && (tcl_motor_val.l3_left_val < 16384)) || 
         ((tcl_ana_st.l3_up != false) && (tcl_ana_st.l3_right != false) && (tcl_motor_val.l3_right_val < 16384))) {  
         /* モーターの制御を書く */
         tui_motor_conv_val = (int)tcl_motor_val.l3_up_val / 128.5;
@@ -44,8 +44,8 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
         digitalWrite(MOTOR_PIN6, HIGH);     /* 右モーター:IN2をHIGHに設定 */
 
     /* 後進 */
-    } else if (((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left == false) && (tcl_ana_st.l3_right == false)) || \
-               ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left != false) && (tcl_motor_val.l3_left_val < 16384)) || \
+    } else if (((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left == false) && (tcl_ana_st.l3_right == false)) || 
+               ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_left != false) && (tcl_motor_val.l3_left_val < 16384)) || 
                ((tcl_ana_st.l3_down != false) && (tcl_ana_st.l3_right != false) && (tcl_motor_val.l3_right_val < 16384))) {
         /* モーターの制御を書く */
         tui_motor_conv_val = (int)tcl_motor_val.l3_down_val / 128.5;
@@ -59,8 +59,8 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
         digitalWrite(MOTOR_PIN6, LOW);       /* 右モーター:IN2をLOWに設定 */
 
     /* 左旋回 */
-    } else if (((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up == false) && (tcl_ana_st.l3_down == false)) || \
-               ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up != false) && (tcl_motor_val.l3_up_val < 16384)) || \
+    } else if (((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up == false) && (tcl_ana_st.l3_down == false)) || 
+               ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_up != false) && (tcl_motor_val.l3_up_val < 16384)) || 
                ((tcl_ana_st.l3_left != false) && (tcl_ana_st.l3_down != false) && (tcl_motor_val.l3_down_val < 16384))) {
         /* モーターの制御を書く */
         tui_motor_conv_val = (int)tcl_motor_val.l3_left_val / 128.5;
@@ -72,6 +72,21 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
         digitalWrite(MOTOR_PIN4, HIGH);      /* 左モーター:IN2をHIGHに設定 */
         digitalWrite(MOTOR_PIN5, LOW);       /* 右モーター:IN1をLOWに設定 */
         digitalWrite(MOTOR_PIN6, HIGH);      /* 右モーター:IN2をHIGHに設定 */
+
+    /* 右旋回 */
+    } else if (((tcl_ana_st.l3_right != false) && (tcl_ana_st.l3_up == false) && (tcl_ana_st.l3_down == false)) || 
+               ((tcl_ana_st.l3_right != false) && (tcl_ana_st.l3_up != false) && (tcl_motor_val.l3_up_val < 16384)) || 
+               ((tcl_ana_st.l3_right != false) && (tcl_ana_st.l3_down != false) && (tcl_motor_val.l3_down_val < 16384))) {
+        /* モーターの制御を書く */
+        tui_motor_conv_val = (int)tcl_motor_val.l3_right_val / 128.5;
+        analogWrite(MOTOR_PIN1, tui_motor_conv_val);
+        analogWrite(MOTOR_PIN2, tui_motor_conv_val);
+
+        /* 以下設定はモータードライバーとの配線次第で変更が必要 */
+        digitalWrite(MOTOR_PIN3, HIGH);       /* 左モーター:IN1をHIGHに設定 */
+        digitalWrite(MOTOR_PIN4, LOW);        /* 左モーター:IN2をLOWに設定 */
+        digitalWrite(MOTOR_PIN5, HIGH);       /* 右モーター:IN1をHIGHに設定 */
+        digitalWrite(MOTOR_PIN6, LOW);        /* 右モーター:IN2をLOWに設定 */
     }
     scl_motor_val_old = tcl_motor_val;
 }
