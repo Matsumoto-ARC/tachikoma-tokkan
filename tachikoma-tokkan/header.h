@@ -4,26 +4,39 @@
 #include <string.h>
 #include "Arduino.h"
 
-/* サーボのGPIO番号を設定(全て490Hz) */
-#define SERVO_PIN1   (3) 
-#define SERVO_PIN2   (9)
-#define SERVO_PIN3   (10)
-#define SERVO_PIN4   (11)
+#if defined ARDUINO_AVR_UNO    /* 書き込み先がUNOの場合 */
 
-/* モーターのGPIO番号を設定 */
-#define MOTOR_PIN1  (5)     /* 左モーターの動作速度 制御用 */
-#define MOTOR_PIN2  (6)     /* 右モーターの動作速度 制御用 */
-#define MOTOR_PIN3  (7)     /* 左モーターの(IN1) 制御用 */
-#define MOTOR_PIN4  (8)     /* 左モーターの(IN2) 制御用 */
-#define MOTOR_PIN5  (12)    /* 右モーターの(IN1) 制御用 */
-#define MOTOR_PIN6  (13)    /* 右モーターの(IN2) 制御用 */
+    /* サーボのGPIO番号を設定(全て490Hz) */
+    #define SERVO_PIN1   (3)    /* ハンド軸1 MG996R */
+    #define SERVO_PIN2   (9)    /* ハンド軸2 MG996R */
+    #define SERVO_PIN3   (10)   /* ハンド軸3 FT5335M */
+    #define SERVO_PIN4   (11)   /* ハンド軸4 FT5335M */
+
+    /* モーターのGPIO番号を設定 */
+    #define MOTOR_PIN1  (5)     /* 左モーターの動作速度 制御用 */
+    #define MOTOR_PIN2  (6)     /* 右モーターの動作速度 制御用 */
+    #define MOTOR_PIN3  (7)     /* 左モーターの(IN1) 制御用 */
+    #define MOTOR_PIN4  (8)     /* 左モーターの(IN2) 制御用 */
+    #define MOTOR_PIN5  (12)    /* 右モーターの(IN1) 制御用 */
+    #define MOTOR_PIN6  (13)    /* 右モーターの(IN2) 制御用 */
+
+#elif defined ARDUINO_SAM_DUE   /* 書き込み先がDUEの場合 */
+
+    #define SERVO_PIN1   (5)    /* ハンド軸4 FT5335M */
+    #define SERVO_PIN2   (4)    /* ハンド軸3 FT5335M */
+    #define SERVO_PIN3   (3)    /* ハンド軸2 MG996R */
+    #define SERVO_PIN4   (2)    /* ハンド軸1 MG996R */
+
+    #define MOTOR_PIN1  (6)     /* 左モーターの動作速度 制御用 */
+    #define MOTOR_PIN2  (7)     /* 右モーターの動作速度 制御用 */
+    #define MOTOR_PIN5  (23)    /* 右モーターの(IN1) 制御用 */
+    #define MOTOR_PIN6  (24)    /* 右モーターの(IN2) 制御用 */
+    #define MOTOR_PIN3  (25)    /* 左モーターの(IN1) 制御用 */
+    #define MOTOR_PIN4  (26)    /* 左モーターの(IN2) 制御用 */
+#endif
 
 /* 左右旋回時間 */
 #define MOTOR_ACTION_TIME   (2)  /* max 510(255*2)msec */
-
-/* LED用のGPIO番号を設定 */
-#define LED_PIN1    (2)
-#define LED_PIN2    (4)
 
 /* サーボの初期角度を設定 TBD(サーボの仕様で以下の値を決定する)*/
 #define BASE_SERVO_INIT_ANGLE   (1500)
@@ -31,15 +44,15 @@
 #define WRIST_SERVO_INIT_ANGLE  (1500)
 #define FINGER_SERVO_INIT_ANGLE (1500)
 
-#define BASE_SERVO_MAX_ANGLE    (2000)
-#define ELBOW_SERVO_MAX_ANGLE   (2000)
-#define WRIST_SERVO_MAX_ANGLE   (2000)
-#define FINGER_SERVO_MAX_ANGLE  (2000)
+#define BASE_SERVO_MAX_ANGLE    (2400)
+#define WRIST_SERVO_MAX_ANGLE   (2400)
+#define ELBOW_SERVO_MAX_ANGLE   (2400)
+#define FINGER_SERVO_MAX_ANGLE  (2400)
 
-#define BASE_SERVO_MIN_ANGLE    (1000)
-#define ELBOW_SERVO_MIN_ANGLE   (1000)
-#define WRIST_SERVO_MIN_ANGLE   (1000)
-#define FINGER_SERVO_MIN_ANGLE  (1000)
+#define BASE_SERVO_MIN_ANGLE    (800)
+#define ELBOW_SERVO_MIN_ANGLE   (800)
+#define WRIST_SERVO_MIN_ANGLE   (800)
+#define FINGER_SERVO_MIN_ANGLE  (800)
 
 /* Error No */
 enum ERROR_NO {
@@ -83,10 +96,11 @@ struct DIGITAL_BUTTON {
     bool    circle;
     bool    cross;
     bool    square;
+    bool    ps;
 
     /* メンバイニシャライザ */
-    DIGITAL_BUTTON():   select(false), l3(false), r3(false), start(false), up(false), right(false), down(false), left(false), \
-                        l2(false), r2(false), l1(false), r1(false), triangle(false), circle(false), cross(false), square(false) {}
+    DIGITAL_BUTTON():   select(false), l3(false), r3(false), start(false), up(false), right(false), down(false), left(false), 
+                        l2(false), r2(false), l1(false), r1(false), triangle(false), circle(false), cross(false), square(false), ps(false) {}
 };
 
 struct ANALOG_STICK {
@@ -100,7 +114,7 @@ struct ANALOG_STICK {
     bool    r3_down;
 
     /* メンバイニシャライザ */
-    ANALOG_STICK(): l3_left(false), l3_right(false), l3_up(false), l3_down(false), \
+    ANALOG_STICK(): l3_left(false), l3_right(false), l3_up(false), l3_down(false), 
                     r3_left(false), r3_right(false), r3_up(false), r3_down(false) {}
 };
 
@@ -115,7 +129,7 @@ struct ANALOG_STICK_VAL {
     unsigned int    r3_down_val;
 
     /* メンバイニシャライザ */
-    ANALOG_STICK_VAL(): l3_left_val(0), l3_right_val(0), l3_up_val(0), l3_down_val(0),\
+    ANALOG_STICK_VAL(): l3_left_val(0), l3_right_val(0), l3_up_val(0), l3_down_val(0),
                         r3_left_val(0), r3_right_val(0), r3_up_val(0), r3_down_val(0) {}
 };
 
@@ -126,7 +140,7 @@ struct SERVO_ANGLE {
     unsigned int    finger;
 
     /* メンバイニシャライザ */
-    SERVO_ANGLE():  base(BASE_SERVO_INIT_ANGLE), elbow(ELBOW_SERVO_INIT_ANGLE), \
+    SERVO_ANGLE():  base(BASE_SERVO_INIT_ANGLE), elbow(ELBOW_SERVO_INIT_ANGLE), 
                     wrist(WRIST_SERVO_INIT_ANGLE), finger(FINGER_SERVO_INIT_ANGLE) {}
 };
 
@@ -140,8 +154,10 @@ extern void                 gfunc_controler_button_check(BUTTON_DATA, DIGITAL_BU
 extern ANALOG_STICK_VAL     gfunc_controler_analog_check(BUTTON_DATA, ANALOG_STICK *);
 extern void                 gfunc_servo_init(void);
 extern void                 gfunc_servo_operation(DIGITAL_BUTTON);
+extern void                 gfunc_servo_stop(void);
 extern void                 gfunc_motor_init(void);
 extern void                 gfunc_motor_operation(ANALOG_STICK, ANALOG_STICK_VAL);
+extern void                 gfunc_motor_stop(void);
 extern void                 gfunc_led_init(void);
 extern void                 gfunc_led_operation(void);
 extern void                 gfunc_led_error_blink(unsigned int);

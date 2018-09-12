@@ -18,7 +18,8 @@ enum DIGITAL_BUTTON_NUM {
     TRIANGLE_BUTTON,    /* 12 */
     CIRCLE_BUTTON,      /* 13 */
     CROSS_BUTTON,       /* 14 */
-    SQUARE_BUTTON       /* 15 */
+    SQUARE_BUTTON,      /* 15 */
+    PS_BUTTON           /* 16 */
 };
 
 /* シリアルデータとアナログスティックの対応 */
@@ -33,7 +34,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
 
     switch (tcl_bt_data.button_num) {
         case SELECT_BUTTON:     /* SELCTボタン */
-            if (tcl_bt_data.button_val1 == 1){
+            if (tcl_bt_data.button_val1 != 0){
                 tcl_digi_bt->select = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->select = false;
@@ -41,7 +42,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->select); /* debug用 */
             break;
         case START_BUTTON:     /* STARTボタン */
-            if (tcl_bt_data.button_val1 == 1){
+            if (tcl_bt_data.button_val1 != 0){
                 tcl_digi_bt->start = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->start = false;
@@ -49,7 +50,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->start);  /* debug用 */
             break;
         case L1_BUTTON:    /* L1ボタン */
-            if (tcl_bt_data.button_val1 == 1) {
+            if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->l1 = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->l1 = false;
@@ -57,7 +58,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->l1);     /* debug用 */
             break;
         case R1_BUTTON:    /* R1ボタン */
-            if (tcl_bt_data.button_val1 == 1) {
+            if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->r1 = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->r1 = false;
@@ -65,7 +66,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->r1);     /* debug用 */
             break;
         case TRIANGLE_BUTTON:    /* △ボタン */
-            if (tcl_bt_data.button_val1 == 1) {
+            if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->triangle = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->triangle = false;
@@ -73,7 +74,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->triangle);   /* debug用 */
             break;
         case CIRCLE_BUTTON:    /* ○ボタン */
-            if (tcl_bt_data.button_val1 == 1) {
+            if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->circle = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->circle = false;
@@ -81,7 +82,7 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->circle);     /* debug用 */
             break;
         case CROSS_BUTTON:    /* ×ボタン */
-            if (tcl_bt_data.button_val1 == 1) {
+            if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->cross = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->cross = false;
@@ -89,13 +90,20 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
             // Serial.println(tcl_digi_bt->cross);      /* debug用 */
             break;
         case SQUARE_BUTTON:    /* □ボタン */
-            if (tcl_bt_data.button_val1 == 1) {
+            if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->square = true;
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->square = false;
             }
             // Serial.println(tcl_digi_bt->square);     /* debug用 */
             break;
+        case PS_BUTTON:
+            if (tcl_bt_data.button_val1 != 0) {
+                tcl_digi_bt->ps = true;
+            } else if (tcl_bt_data.button_val1 == 0) {
+                tcl_digi_bt->ps = false;
+            }
+            // Serial.println(tcl_digi_bt->ps);     /* debug用 */        
         default:    /* その他ボタン(十字キー, L2, R2, L3, R3) */
             break;
     }

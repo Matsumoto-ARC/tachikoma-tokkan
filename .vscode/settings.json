@@ -3,6 +3,9 @@
     "C_Cpp.intelliSenseEngine": "Tag Parser",
     "files.associations": {
         "ios": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "random": "cpp"
     },
 }

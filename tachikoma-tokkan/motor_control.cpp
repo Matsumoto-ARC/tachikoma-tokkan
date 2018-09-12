@@ -90,3 +90,12 @@ void gfunc_motor_operation(ANALOG_STICK tcl_ana_st, ANALOG_STICK_VAL tcl_motor_v
     }
     scl_motor_val_old = tcl_motor_val;
 }
+
+void gfunc_motor_stop(void) {
+    analogWrite(MOTOR_PIN1, 0);
+    analogWrite(MOTOR_PIN2, 0);
+    digitalWrite(MOTOR_PIN3, LOW);  
+    digitalWrite(MOTOR_PIN4, LOW);
+    digitalWrite(MOTOR_PIN5, LOW);  
+    digitalWrite(MOTOR_PIN6, LOW);
+}

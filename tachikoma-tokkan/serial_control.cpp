@@ -10,7 +10,6 @@ static String   sst_read_data;
 
 /* 関数のプロトタイプ宣言 */
 static void     sfunc_serial_calc_format(BUTTON_DATA *);
-static bool     sfunc_serial_comm_check(void);
 
 void gfunc_serial_init(void){
     bool    tbl_comm_result = false;
@@ -20,11 +19,6 @@ void gfunc_serial_init(void){
     Serial.flush();
 
     sst_read_data = "";
-    /* tbl_comm_result = sfunc_serial_comm_check();
-    
-    if (tbl_comm_result != true) {
-        gfunc_led_error_blink(SERIAL_COMM_ERROR);
-    } */
 }
 
 void gfunc_serial_read(BUTTON_DATA *tcl_result_data){
@@ -39,25 +33,6 @@ void gfunc_serial_read(BUTTON_DATA *tcl_result_data){
         tcl_result_data->button_val1 = 0;
         tcl_result_data->button_val2 = 0;
     }
-}
-
-/* Raspberry Piと通信チェック */
-bool sfunc_serial_comm_check(void){
-    bool            tbl_result = false;
-    String          tst_read;
-    unsigned int    tui_retry_count;
-
-    for(tui_retry_count = 0; tui_retry_count < RETRY_MAX; tui_retry_count++){
-        Serial.write(1);    /* Raspberry Piに送信 */
-        tst_read = Serial.read();
-        if (tst_read != "-1") {
-            tbl_result = true;
-            break;  /* 送受信が問題なく行われた場合、ループから出る */
-        }
-        delay(1000);
-    }
-
-    return tbl_result;
 }
 
 void sfunc_serial_calc_format(BUTTON_DATA *tcl_bt_data){
