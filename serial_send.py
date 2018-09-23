@@ -33,15 +33,14 @@ def creat_format():
     elif ds3_val < 100000:  # 10000 =< ds3_val < 100000
       ds3_val = '0' + str(ds3_val)
 
-""" device_path = os.path.relpath("/dev/input/js0")
+device_path = "/dev/input/js0"
 connect_wait = True
 while connect_wait:
-  if os.path.isfile(device_path):
+  if os.path.exists(device_path):
     connect_wait = False
   else:
-    time.sleep(1) """
+    time.sleep(1)
 
-device_path = "/dev/input/js0"
 port = "/dev/ttyS0"
 serialArduino = serial.Serial(port, 9600)
 serialArduino.flushInput()
