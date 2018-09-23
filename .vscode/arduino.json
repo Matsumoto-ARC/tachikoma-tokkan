@@ -1,5 +1,6 @@
 {
-    "board": "arduino:avr:uno",
-    "port": "/dev/cu.usbmodem1421",
-    "sketch": "tachikoma-tokkan/tachikoma-tokkan.ino"
+    "board": "arduino:avr:diecimila",
+    "port": "/dev/cu.usbmodem14241",
+    "sketch": "tachikoma-takkan.ino",
+    "configuration": "cpu=atmega328"
 }

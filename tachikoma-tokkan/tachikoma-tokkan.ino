@@ -8,7 +8,7 @@ static ANALOG_STICK_VAL scl_motor_val;
 
 void setup(){
     /* 初期化 */
-    gfunc_led_init();
+    // gfunc_led_init();
     gfunc_serial_init();
     gfunc_servo_init();
     gfunc_motor_init();

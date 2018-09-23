@@ -11,7 +11,7 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "/Applications/Arduino.app/Contents/Java/Libraries",
+                    "/Applications/Arduino.app/Contents/JavaS/Libraries",
                     "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino"
                 ]
             },

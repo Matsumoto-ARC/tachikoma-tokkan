@@ -1,0 +1,5 @@
+{
+    "port": "/dev/cu.usbmodem14241",
+    "board": "arduino:sam:arduino_due_x",
+    "sketch": "tachikoma-tokkan.ino"
+}
