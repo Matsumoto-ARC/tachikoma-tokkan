@@ -8,7 +8,7 @@ static ANALOG_STICK_VAL scl_motor_val;
 
 void setup(){
     /* 初期化 */
-    // gfunc_led_init();
+    gfunc_led_init();
     gfunc_serial_init();
     gfunc_servo_init();
     gfunc_motor_init();
@@ -17,7 +17,7 @@ void setup(){
 void loop(){
     /* Raspberry Pi3から送信されてくるシリアルデータを取得 */
     gfunc_serial_read(&scl_result_data);
-    // Serial.println(scl_result_data.button_type);
+    Serial1.println(scl_result_data.button_type);
 
     /* 取得したシリアルデータからタイプを分類 */
     if (scl_result_data.button_type == 1) {     /* ディジタル値(ボタン操作)の場合 */

@@ -36,16 +36,20 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
         case SELECT_BUTTON:     /* SELCTボタン */
             if (tcl_bt_data.button_val1 != 0){
                 tcl_digi_bt->select = true;
+                digitalWrite(LED_PIN2, HIGH);
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->select = false;
+                digitalWrite(LED_PIN2, LOW);
             }
             // Serial.println(tcl_digi_bt->select); /* debug用 */
             break;
         case START_BUTTON:     /* STARTボタン */
             if (tcl_bt_data.button_val1 != 0){
                 tcl_digi_bt->start = true;
+                digitalWrite(LED_PIN1, HIGH);
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->start = false;
+                digitalWrite(LED_PIN1, LOW);
             }
             // Serial.println(tcl_digi_bt->start);  /* debug用 */
             break;

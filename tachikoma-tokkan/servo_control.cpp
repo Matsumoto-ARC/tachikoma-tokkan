@@ -25,10 +25,13 @@ void gfunc_servo_init(void) {
     } */
 
     /* それぞれのサーボの初期角度を設定(TBD) */
-    scl_base_servo.writeMicroseconds(BASE_SERVO_INIT_ANGLE);
-    scl_elbow_servo.writeMicroseconds(ELBOW_SERVO_INIT_ANGLE);
-    scl_wrist_servo.writeMicroseconds(WRIST_SERVO_INIT_ANGLE);
     scl_finger_servo.writeMicroseconds(FINGER_SERVO_INIT_ANGLE);
+    delay(1000);
+    scl_wrist_servo.writeMicroseconds(WRIST_SERVO_INIT_ANGLE);
+    delay(1000);
+    scl_elbow_servo.writeMicroseconds(ELBOW_SERVO_INIT_ANGLE);
+    delay(1000);
+    scl_base_servo.writeMicroseconds(BASE_SERVO_INIT_ANGLE);
 }
 
 bool sfunc_servo_check(void) {
@@ -62,15 +65,15 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
         /* L1 or R1 + 何かしらのボタンで動作 */
         if ((tcl_digital_bt.triangle != false) && (tcl_digital_bt.l1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.finger > FINGER_SERVO_MIN_ANGLE) {
-                scl_angle_now.finger -= 10;
+            if(scl_angle_now.finger < FINGER_SERVO_MAX_ANGLE) {
+                scl_angle_now.finger += 5;
             } else {
                 /* 何もしない */
             }
         } else if ((tcl_digital_bt.triangle != false) && (tcl_digital_bt.r1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.finger < FINGER_SERVO_MAX_ANGLE) {
-                scl_angle_now.finger += 10;
+            if(scl_angle_now.finger > FINGER_SERVO_MIN_ANGLE) {
+                scl_angle_now.finger -= 5;
             } else {
                 /* 何もしない */
             }
@@ -80,15 +83,15 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
 
         if ((tcl_digital_bt.circle != false) && (tcl_digital_bt.l1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.elbow > ELBOW_SERVO_MIN_ANGLE) {
-                scl_angle_now.elbow -= 10;
+            if(scl_angle_now.elbow < ELBOW_SERVO_MAX_ANGLE) {
+                scl_angle_now.elbow += 5;
             } else {
                 /* 何もしない */
             }
         } else if ((tcl_digital_bt.circle != false) && (tcl_digital_bt.r1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.elbow < ELBOW_SERVO_MAX_ANGLE) {
-                scl_angle_now.elbow += 10;
+            if(scl_angle_now.elbow > ELBOW_SERVO_MIN_ANGLE) {
+                scl_angle_now.elbow -= 5;
             } else {
                 /* 何もしない */
             }
@@ -98,15 +101,15 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
 
         if ((tcl_digital_bt.cross != false) && (tcl_digital_bt.l1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.base > BASE_SERVO_MIN_ANGLE) {
-                scl_angle_now.base -= 10;
+            if(scl_angle_now.base < BASE_SERVO_MAX_ANGLE) {
+                scl_angle_now.base += 5;
             } else {
                 /* 何もしない */
             }
         } else if ((tcl_digital_bt.cross != false) && (tcl_digital_bt.r1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.base < BASE_SERVO_MAX_ANGLE) {
-                scl_angle_now.base += 10;
+            if(scl_angle_now.base > BASE_SERVO_MIN_ANGLE) {
+                scl_angle_now.base -= 5;
             } else {
                 /* 何もしない */
             }
@@ -116,15 +119,15 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
 
         if ((tcl_digital_bt.square != false) && (tcl_digital_bt.l1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.wrist > WRIST_SERVO_MIN_ANGLE) {
-                scl_angle_now.wrist -= 10;
+            if(scl_angle_now.wrist < WRIST_SERVO_MAX_ANGLE) {
+                scl_angle_now.wrist += 15;
             } else {
                 /* 何もしない */
             }
         } else if ((tcl_digital_bt.square != false) && (tcl_digital_bt.r1 != false)) {
             /* servoの制御を書く */
-            if(scl_angle_now.wrist < WRIST_SERVO_MAX_ANGLE) {
-                scl_angle_now.wrist += 10;
+            if(scl_angle_now.wrist > WRIST_SERVO_MIN_ANGLE) {
+                scl_angle_now.wrist -= 15;
             } else {
                 /* 何もしない */
             }
