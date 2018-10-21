@@ -17,7 +17,7 @@ void setup(){
 void loop(){
     /* Raspberry Pi3から送信されてくるシリアルデータを取得 */
     gfunc_serial_read(&scl_result_data);
-    Serial1.println(scl_result_data.button_type);
+    // Serial1.println(scl_result_data.button_type);
 
     /* 取得したシリアルデータからタイプを分類 */
     if (scl_result_data.button_type == 1) {     /* ディジタル値(ボタン操作)の場合 */
@@ -29,6 +29,7 @@ void loop(){
         if (scl_result_button.ps != false) {
             gfunc_motor_stop();
             gfunc_servo_stop();
+            digitalWrite(EMERGENCY_PIN, HIGH);
             while (1) {
                 /* 無限ループ */
             }

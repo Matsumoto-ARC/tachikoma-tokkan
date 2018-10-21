@@ -13,17 +13,6 @@ void gfunc_servo_init(void) {
     bool            tbl_servo_result = false;
     unsigned int    tui_error_no = 0;
 
-    /* それぞれのサーボに割り当てるGPIOを設定(TBD) */
-    scl_base_servo.attach(SERVO_PIN1);
-    scl_elbow_servo.attach(SERVO_PIN2);
-    scl_wrist_servo.attach(SERVO_PIN3);
-    scl_finger_servo.attach(SERVO_PIN4);
-
-/*     tbl_servo_result = sfunc_servo_check();
-    if (tbl_servo_result != true) {
-        gfunc_led_error_blink(SERVO_MOVE_ERROR);
-    } */
-
     /* それぞれのサーボの初期角度を設定(TBD) */
     scl_finger_servo.writeMicroseconds(FINGER_SERVO_INIT_ANGLE);
     delay(1000);
@@ -32,6 +21,20 @@ void gfunc_servo_init(void) {
     scl_elbow_servo.writeMicroseconds(ELBOW_SERVO_INIT_ANGLE);
     delay(1000);
     scl_base_servo.writeMicroseconds(BASE_SERVO_INIT_ANGLE);
+    delay(1000);
+
+    /* それぞれのサーボに割り当てるGPIOを設定(TBD) */
+    scl_base_servo.attach(SERVO_PIN1);
+    scl_elbow_servo.attach(SERVO_PIN2);
+    scl_wrist_servo.attach(SERVO_PIN3);
+    scl_finger_servo.attach(SERVO_PIN4);
+    
+
+    /*  tbl_servo_result = sfunc_servo_check();
+    if (tbl_servo_result != true) {
+        gfunc_led_error_blink(SERVO_MOVE_ERROR);
+    } */
+
 }
 
 bool sfunc_servo_check(void) {
@@ -145,10 +148,10 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
 
 void gfunc_servo_stop(void) {
     /* 初期位置をセット */
-    scl_angle_now.base = BASE_SERVO_INIT_ANGLE;
+    /* scl_angle_now.base = BASE_SERVO_INIT_ANGLE;
     scl_angle_now.elbow = ELBOW_SERVO_INIT_ANGLE;
     scl_angle_now.wrist = WRIST_SERVO_INIT_ANGLE;
-    scl_angle_now.finger = FINGER_SERVO_INIT_ANGLE;
+    scl_angle_now.finger = FINGER_SERVO_INIT_ANGLE; */
 
     /* 初期位置を保持 */
     scl_base_servo.writeMicroseconds(scl_angle_now.base);

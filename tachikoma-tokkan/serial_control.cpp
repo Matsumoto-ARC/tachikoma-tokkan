@@ -14,20 +14,22 @@ static void     sfunc_serial_calc_format(BUTTON_DATA *);
 void gfunc_serial_init(void){
     bool    tbl_comm_result = false;
 
-    Serial1.begin(9600);
-    Serial1.setTimeout(5);
-    Serial1.flush();
+    Serial.begin(9600);
+    Serial.setTimeout(5);
+    Serial.flush();
 
     sst_read_data = "";
 }
 
 void gfunc_serial_read(BUTTON_DATA *tcl_result_data){
      
-    sst_read_data = Serial1.readStringUntil('\n');
-    Serial1.println(sst_read_data);  /* debug用 */
+    sst_read_data = Serial.readStringUntil('\n');
+    // Serial1.println(sst_read_data);  /* debug用 */
     if (sst_read_data != ""){
         sfunc_serial_calc_format(tcl_result_data);
+        //gfunc_led_error_blink(1);
     } else {
+        gfunc_led_error_blink(3);
         tcl_result_data->button_type = 0;
         tcl_result_data->button_num = 0;
         tcl_result_data->button_val1 = 0;

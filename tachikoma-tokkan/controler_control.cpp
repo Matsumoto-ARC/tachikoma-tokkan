@@ -80,16 +80,20 @@ void gfunc_controler_button_check(BUTTON_DATA tcl_bt_data, DIGITAL_BUTTON *tcl_d
         case CIRCLE_BUTTON:    /* ○ボタン */
             if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->circle = true;
+                gfunc_led_error_blink(1);
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->circle = false;
+                gfunc_led_error_blink(0);
             }
             // Serial.println(tcl_digi_bt->circle);     /* debug用 */
             break;
         case CROSS_BUTTON:    /* ×ボタン */
             if (tcl_bt_data.button_val1 != 0) {
                 tcl_digi_bt->cross = true;
+                gfunc_led_error_blink(2);
             } else if (tcl_bt_data.button_val1 == 0) {
                 tcl_digi_bt->cross = false;
+                gfunc_led_error_blink(0);
             }
             // Serial.println(tcl_digi_bt->cross);      /* debug用 */
             break;

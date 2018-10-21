@@ -18,6 +18,15 @@
     #define MOTOR_PIN5  (12)    /* 右モーターの(IN1) 制御用 */
     #define MOTOR_PIN6  (13)    /* 右モーターの(IN2) 制御用 */
 
+    /* LED */
+    #define LED_PIN1 (2)   /* 赤LED */
+    #define LED_PIN2 (4)   /* 黄LED */
+    #define LED_PIN3 (5)   /* 青LED */
+    #define LED_PIN4 (6)   /* 緑LED */
+    #define LED_PIN5 (14)   /* Arduino デフォルトLED */
+
+    #define EMERGENCY_PIN   (8) /* 非常停止出力用 */
+
 #elif defined ARDUINO_SAM_DUE   /* 書き込み先がDUEの場合 */
 
     #define SERVO_PIN1   (5)    /* ハンド軸4 FT5335M */
@@ -25,35 +34,37 @@
     #define SERVO_PIN3   (3)    /* ハンド軸2 MG996R */
     #define SERVO_PIN4   (2)    /* ハンド軸1 MG996R */
 
-    #define MOTOR_PIN5  (23)    /* 右モーターの(IN1) 制御用 */
-    #define MOTOR_PIN6  (24)    /* 右モーターの(IN2) 制御用 */
     #define MOTOR_PIN3  (25)    /* 左モーターの(IN1) 制御用 */
     #define MOTOR_PIN4  (26)    /* 左モーターの(IN2) 制御用 */
-#endif
+    #define MOTOR_PIN5  (23)    /* 右モーターの(IN1) 制御用 */
+    #define MOTOR_PIN6  (24)    /* 右モーターの(IN2) 制御用 */
 
-/* LED */
-#define LED_PIN1 (6)   /* 赤LED */
-#define LED_PIN2 (7)   /* 黄LED */
-#define LED_PIN3 (9)   /* 青LED */
-#define LED_PIN4 (10)   /* 緑LED */
-#define LED_PIN5 (13)   /* Arduino デフォルトLED */
+    #define EMERGENCY_PIN   (8) /* 非常停止出力用 */
+
+    /* LED */
+    #define LED_PIN1 (9)   /* 赤LED */
+    #define LED_PIN2 (10)   /* 黄LED */
+    #define LED_PIN3 (11)   /* 青LED */
+    #define LED_PIN4 (12)   /* 緑LED */
+    #define LED_PIN5 (13)   /* Arduino デフォルトLED */
+#endif
 
 /* 左右旋回時間 */
 #define MOTOR_ACTION_TIME   (2)  /* max 510(255*2)msec */
 
 /* サーボの初期角度を設定 TBD(サーボの仕様で以下の値を決定する)*/
 #define BASE_SERVO_INIT_ANGLE   (1300)
-#define ELBOW_SERVO_INIT_ANGLE  (1900)
+#define ELBOW_SERVO_INIT_ANGLE  (800)
 #define WRIST_SERVO_INIT_ANGLE  (1500)
 #define FINGER_SERVO_INIT_ANGLE (1800)
 
 #define BASE_SERVO_MAX_ANGLE    (2400)
-#define WRIST_SERVO_MAX_ANGLE   (2700)
-#define ELBOW_SERVO_MAX_ANGLE   (1800)
+#define ELBOW_SERVO_MAX_ANGLE   (1500)
+#define WRIST_SERVO_MAX_ANGLE   (2000)
 #define FINGER_SERVO_MAX_ANGLE  (2400)
 
 #define BASE_SERVO_MIN_ANGLE    (600)
-#define ELBOW_SERVO_MIN_ANGLE   (1500)
+#define ELBOW_SERVO_MIN_ANGLE   (600)
 #define WRIST_SERVO_MIN_ANGLE   (800)
 #define FINGER_SERVO_MIN_ANGLE  (1500)
 

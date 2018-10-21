@@ -3,6 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
+                "/Users/siam/Library/Arduino15/packages/esp8266/tools/**",
+                "/Users/siam/Library/Arduino15/packages/esp8266/hardware/esp8266/2.4.2/**",
                 "/Users/siam/Library/Arduino15/packages/arduino/tools/**",
                 "/Users/siam/Library/Arduino15/packages/arduino/hardware/sam/1.6.11/**",
                 "/Applications/Arduino.app/Contents/Java/tools/**",
