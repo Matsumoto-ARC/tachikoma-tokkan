@@ -44,6 +44,10 @@ bool sfunc_servo_check(void) {
 /* TBD(他のメンバーの意見を聞いてから再実装) */
 void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
 
+    /* elbow及びwristの下限値 */
+    unsigned int elbow_servo_min_angle = 0;
+    unsigned int wrist_servo_min_angle = 0;
+    
     /* Startが押された場合、全サーボを初期位置に戻す */
     if (tcl_digital_bt.start != false) {
         scl_angle_now.base = BASE_SERVO_INIT_ANGLE;
@@ -92,8 +96,11 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
                 /* 何もしない */
             }
         } else if ((tcl_digital_bt.circle != false) && (tcl_digital_bt.r1 != false)) {
+            /* elbowの下限値を決める */
+            elbow_min_angle = gfunc_servo_elbowMinAngle((unsigned int)scl_angle_now.wrist);
             /* servoの制御を書く */
-            if(scl_angle_now.elbow > ELBOW_SERVO_MIN_ANGLE) {
+            /*  if(scl_angle_now.elbow > ELBOW_SERVO_MIN_ANGLE) {   */
+            if(scl_angle_now.elbow > elbow_servo_min_angle) {
                 scl_angle_now.elbow -= 5;
             } else {
                 /* 何もしない */
@@ -128,8 +135,11 @@ void gfunc_servo_operation(DIGITAL_BUTTON tcl_digital_bt){
                 /* 何もしない */
             }
         } else if ((tcl_digital_bt.square != false) && (tcl_digital_bt.r1 != false)) {
+            /* wristの下限値を決める */
+            wrist_servo_min_angle = gfunc_servo_wristMinAngle((unsigned int)scl_angle_now.elbow);
             /* servoの制御を書く */
-            if(scl_angle_now.wrist > WRIST_SERVO_MIN_ANGLE) {
+            /*  if(scl_angle_now.wrist > WRIST_SERVO_MIN_ANGLE) {   */
+            if(scl_angle_now.wrist < wrist_servo_min_angle) {
                 scl_angle_now.wrist -= 15;
             } else {
                 /* 何もしない */
@@ -158,4 +168,32 @@ void gfunc_servo_stop(void) {
     scl_elbow_servo.writeMicroseconds(scl_angle_now.elbow);
     scl_wrist_servo.writeMicroseconds(scl_angle_now.wrist);
     scl_finger_servo.writeMicroseconds(scl_angle_now.finger);   
+}
+
+/* wristの現在値からelbowの下限値を算出 */
+unsigned int gfunc_servo_elbowMinAngle(unsigned int tui_wrist) {
+    unsigned int tui_min_angle;
+    
+    if(tui_wrist > 1000) {
+        /* wristが下限値に達していない場合、ELBOW_SERVO_MIN_ANGLEの値をそのまま使用 */
+        tui_min_angle = ELBOW_SERVO_MIN_ANGLE;  //(=600)
+    } else {
+        tui_min_angle = 800;
+    }
+    
+    return tui_min_angle;
+}
+
+/* elbowの現在値からwristの下限値を算出 */
+unsigned int gfunc_servo_wristMinAngle(unsigned int tui_elbow) {
+    unsigned int tui_min_angle;
+    
+    if(tui_elbow < 1000) {
+        /* wristが下限値に達していない場合、WRIST_SERVO_MIN_ANGLEの値をそのまま使用 */
+        tui_min_angle = WRIST_SERVO_MIN_ANGLE;  //(=800)
+    } else {
+        tui_min_angle = 1000;
+    }
+    
+    return tui_min_angle;
 }
