@@ -175,5 +175,7 @@ extern void                 gfunc_motor_stop(void);
 extern void                 gfunc_led_init(void);
 extern void                 gfunc_led_operation(unsigned int);
 extern void                 gfunc_led_error_blink(unsigned int);
+extern unsigned int         gfunc_servo_elbowMinAngle(unsigned int);
+extern unsigned int         gfunc_servo_wristMinAngle(unsigned int);
 
 #endif
