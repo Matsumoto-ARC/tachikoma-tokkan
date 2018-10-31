@@ -170,7 +170,7 @@ void gfunc_servo_stop(void) {
     scl_finger_servo.writeMicroseconds(scl_angle_now.finger);   
 }
 
-/* wristの現在値からelbowの下限値を算出 */
+/* wristの現在値からelbowの下限値を算出（詳しい値は稼働させながら決定） */
 unsigned int gfunc_servo_elbowMinAngle(unsigned int tui_wrist) {
     unsigned int tui_min_angle;
     
@@ -184,7 +184,7 @@ unsigned int gfunc_servo_elbowMinAngle(unsigned int tui_wrist) {
     return tui_min_angle;
 }
 
-/* elbowの現在値からwristの下限値を算出 */
+/* elbowの現在値からwristの下限値を算出（詳しい値は稼働させながら決定） */
 unsigned int gfunc_servo_wristMinAngle(unsigned int tui_elbow) {
     unsigned int tui_min_angle;
     
